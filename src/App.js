@@ -1,23 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import Tracks from "./components/SearchBar/Track";
+import Title from "./components/Title";
+import SearchBar from "./components/SearchBar/SearchBar";
 
 function App() {
+  const applicants = [ {
+    name: 'Joe', 
+    work: 'freelance-developer',
+    blogs: '54', 
+     id: '0',
+  },
+  {
+    name: 'janet', 
+    work: 'fullstack-developer', 
+    blogs: '34', 
+     id: '1',
+  },
+
+];
+
+  // const [tracks, setTrack] = useState([]);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Title />
+      <SearchBar />
+      <div className="flex justify-between w-full bg-Fatima-playlistiv">
+      <div className="bg-Fatima-playlistiv">
+        <Tracks applicants={applicants}/>
+      {/* {
+      applicants.map(function(item) {
+          <Tracks x={item.name}/>
+         })
+        } */}
+      </div>
+      <div>xmmdkmdkc</div>
+    </div>
     </div>
   );
 }
