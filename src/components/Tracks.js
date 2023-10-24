@@ -1,13 +1,17 @@
 import React from "react";
+import  {toast}  from 'react-toastify';
 function Tracks(props) {
   // const { isRemoval, tracks, onAdd, onRemove } = props;
   // console.log(props.track,'tracks')
   const addTrack = () => {
     props.onAdd(props.track);
+    toast.success("Added Track Sucessfully")
   };
 
   const removeTrack = () => {
     props.onRemove(props.track);
+    
+    toast.success("Removed Track Sucessfully")
   };
 
   const renderAction = () => {

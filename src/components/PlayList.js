@@ -9,7 +9,8 @@ function Playlist(props) {
     <>
       <div
         className="bg-Fatima-result bg-opacity-70   md:mb-8 mr-123 
-     overflow-y-scroll p-2 w-1/3 ml-60 overflow-hidden boxShadow-3xl"
+     overflow-y-scroll p-2 w-1/3 ml-60 overflow-hidden boxShadow-3xl 
+     sm:w-11/12 sm-item-center max-h-96 max-xl:w-11/12 "
       >
         <div className="w-full">
         <input  className="font-sans text-3xl font-bold bg-transparent text-left pl-2.5 mr-25" 

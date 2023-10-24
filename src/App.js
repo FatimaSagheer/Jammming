@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import "./App.css";
-
 import Title from "./components/Title";
 import SearchBar from "./components/SearchBar";
 import SearchResult from "./components/SearchResult";
 import Playlist from "./components/PlayList";
 import { Spotify } from "./utils/Spotify";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {        
 
@@ -57,11 +58,14 @@ function App() {
       return;
     }
     setPlaylistTracks([...playlistTracks, track]);
+    // toast.error("Added Track Sucessfully")
+
   };
 
   // remove from list 
   const removeTrack = (track) => {
     setPlaylistTracks(playlistTracks.filter(item => item !== track));
+   
   };
 
   //update play list 
@@ -86,14 +90,16 @@ function App() {
     <div className="App">
       <Title />
       <SearchBar onSearch={search} />
-      <div className="flex justify-around w-full space-x-4 lg:flex lg:flex-row 
-      lg:items-start lg:justify-around md:flex md:flex-col md:items-center md:justify-center ">
+      <div className="flex justify-around w-full md:space-x-2 lg:space-x-4 lg:flex lg:flex-row xl:space-x-4
+      lg:items-start lg:justify-around md:flex md:flex-col md:items-center 
+      md:justify-center sm:space-x-0 sm:flex-col p-14
+      xsm:flex-col max-xl:flex-col max-xl:space-x-0 ">
       <SearchResult  searchResult={searchResult} onAdd={addTrack}/>
       <Playlist playlistTracks={playlistTracks} 
        playlistName={playlistName} onRemove={removeTrack} onNameChange={updatePlaylistName} onSave={savePlaylist}
      />
       </div>
-      
+      <ToastContainer />
     </div>
   );
 }

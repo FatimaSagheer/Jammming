@@ -1,5 +1,7 @@
+import  {toast}  from 'react-toastify';
 const client_id = '9cf58882fec54ff7b65685c88b1b886a';
 const redirect_uri = 'http://localhost:3000';
+// const redirect_uri="https://www.JammingFatima.surge.sh"
 /* These constants store your Spotify application's client ID and the redirect URI. 
 The client ID identifies your application to Spotify, 
 and the redirect URI is where users will be redirected after they log in with their Spotify account. */
@@ -15,7 +17,7 @@ const Spotify={ /** spotify is a object contain different method related web api
     //*retrieving the access token*/
     getAccessToken: function() {
         if (currentAccessToken) {
-          console.log('Access token already exists: ' + currentAccessToken);
+          toast.info('Access token already exists: ' + currentAccessToken);
           return currentAccessToken;
         };
         /** ".*? " The regular expression pattern looks for the text "access_token="
@@ -24,21 +26,21 @@ const Spotify={ /** spotify is a object contain different method related web api
         let expirationTime = /expires_in=(.*)/.exec(window.location.href);
 
         if (accessToken && expirationTime) {
-          console.log('Acquired access token: ' + accessToken);
+          toast.error('Acquired access token: ' + accessToken);
           currentAccessToken = accessToken[1]; //extracts the actual access token
           expirationTimeInSeconds = expirationTime[1]; //extracts the expirationTime  
           window.setTimeout(() => currentAccessToken = '', expirationTimeInSeconds * 1000);
           window.history.pushState('Access Token', null, '/');
           return currentAccessToken;
         } else {
-          console.log('No access token found.');
+          toast.error('No access token found.');
           return '';
         }
       },
       search: async function(searchTerm) {
         let accessToken = await this.getAccessToken();
         if (!accessToken) {
-          console.log('No access token present.');
+          toast.error('No access token present.');
           sessionStorage.setItem('searchTerm', searchTerm);
           window.location.replace(authorizationUrl);
           return [];
@@ -52,8 +54,9 @@ const Spotify={ /** spotify is a object contain different method related web api
             if (response.ok) {
               return response.json();
             }
-            console.log('Search query failed.');
-        }, networkError => console.log(networkError.message)
+            toast.success("Search query failed.")
+            
+        }, networkError => toast.error(networkError.message)
         )
         .then(jsonResponse => {
           if (jsonResponse && jsonResponse.tracks) {
@@ -66,9 +69,10 @@ const Spotify={ /** spotify is a object contain different method related web api
                 uri: track.uri
               }
             });
+          
           }
           else if (jsonResponse && jsonResponse.error) {
-            console.log(`Search query error: ${jsonResponse.error.message}`);
+            toast.error(`Search query error: ${jsonResponse.error.message}`);
           }
           else {
             return [];
@@ -82,7 +86,7 @@ const Spotify={ /** spotify is a object contain different method related web api
     
         let accessToken = await this.getAccessToken();
         if (!accessToken) {
-          console.log('No access token present.');
+          toast.error('No access token present.');
           // Save playlist information to session storage here
           window.location.replace(authorizationUrl);
           return;
@@ -99,15 +103,15 @@ const Spotify={ /** spotify is a object contain different method related web api
           if (response.ok) {
             return response.json();
           }
-          console.log('Error querying user ID.');
-        }, networkError => console.log(networkError.message)
+         toast.error('Error querying user ID.');
+        }, networkError => toast.error(networkError.message)
         )
         .then(jsonResponse => {
           if (jsonResponse && jsonResponse.id) {
             return jsonResponse.id;
           }
           else if (jsonResponse && jsonResponse.error) {
-            console.log(`Error querying user ID: ${jsonResponse.error.message}`);
+            toast.error(`Error querying user ID: ${jsonResponse.error.message}`);
           }
         });
     
@@ -125,15 +129,15 @@ const Spotify={ /** spotify is a object contain different method related web api
           if (response.ok) {
             return response.json();
           }
-          console.log(`Error creating playlist ${playlistName}.`);
-        }, networkError => console.log(networkError.message)
+          toast.error(`Error creating playlist ${playlistName}.`);
+        }, networkError => toast.error(networkError.message)
         )
         .then(jsonResponse => {
           if (jsonResponse && jsonResponse.id) {
             return jsonResponse.id;
           }
           else if (jsonResponse && jsonResponse.error) {
-            console.log(`Error creating playlist ${playlistName}: ${jsonResponse.error.message}`);
+            toast.error(`Error creating playlist ${playlistName}: ${jsonResponse.error.message}`);
           }
         });
     
@@ -149,17 +153,18 @@ const Spotify={ /** spotify is a object contain different method related web api
         })
         .then(response => {
           if (response.ok) {
+            toast.success('Playlist created successfully')
             return response.json();
           }
-          console.log(`Error saving playlist ${playlistName}.`);
-        }, networkError => console.log(networkError.message)
+          toast.error(`Error saving playlist ${playlistName}.`);
+        }, networkError => toast.error(networkError.message)
         )
         .then(jsonResponse => {
           if (jsonResponse && jsonResponse.snapshot_id) {
             return jsonResponse.snapshot_id;
           }
           else if (jsonResponse && jsonResponse.error) {
-            console.log(`Error saving playlist ${playlistName}: ${jsonResponse.error.message}`);
+            toast.error(`Error saving playlist ${playlistName}: ${jsonResponse.error.message}`);
           }
         });
     
